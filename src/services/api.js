@@ -15,7 +15,12 @@ if (!API_KEY) {
 // Função genérica para requisições da API
 const apiRequest = async (endpoint, params = {}) => {
   const url = new URL(`${BASE_URL}${endpoint}`);
-  url.searchParams.append('api_key', API_KEY);
+
+  // ADICIONADO: Configuração do cabeçalho de autorização
+  const headers = new Headers();
+  headers.append('Authorization', `Bearer ${API_KEY}`);
+  headers.append('Content-Type', 'application/json');
+
   url.searchParams.append('language', 'pt-BR');
   
   // Adiciona parâmetros adicionais
@@ -24,7 +29,11 @@ const apiRequest = async (endpoint, params = {}) => {
   });
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: headers
+    });
+    
     if (!response.ok) {
       throw new Error(`Erro HTTP! status: ${response.status}`);
     }
@@ -35,7 +44,7 @@ const apiRequest = async (endpoint, params = {}) => {
   }
 };
 
-// Funções da API
+// Funções da API (sem alterações)
 export const getPopularMovies = (page = 1) => {
   return apiRequest('/movie/popular', { page });
 };
