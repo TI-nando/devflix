@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Propriedades Customizadas */
 :root {
   --primary: #1a1a2e;
   --secondary: #16213e;
@@ -19,7 +18,6 @@
   --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
 }
 
-/* Estilos Base */
 * {
   margin: 0;
   padding: 0;
@@ -27,7 +25,8 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    sans-serif;
   background-color: var(--background);
   color: var(--text-primary);
   line-height: 1.6;
@@ -55,7 +54,6 @@ body {
   min-height: calc(100vh - 80px);
 }
 
-/* Estilos do Cabeçalho */
 .header {
   position: fixed;
   top: 0;
@@ -118,7 +116,7 @@ body {
 }
 
 .nav-link.active::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -158,7 +156,6 @@ body {
   padding: 0.5rem;
 }
 
-/* Navegação Mobile */
 @media (max-width: 768px) {
   .menu-toggle {
     display: block;
@@ -188,7 +185,6 @@ body {
   }
 }
 
-/* Seção Hero */
 .hero-section {
   background: var(--gradient);
   padding: 4rem 0 6rem;
@@ -197,13 +193,17 @@ body {
 }
 
 .hero-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 30% 20%, rgba(233, 69, 96, 0.1) 0%, transparent 50%);
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(233, 69, 96, 0.1) 0%,
+    transparent 50%
+  );
 }
 
 .hero-content {
@@ -257,7 +257,6 @@ body {
   color: var(--accent);
 }
 
-/* Seção de Filmes */
 .movies-section {
   padding: 4rem 0;
 }
@@ -369,7 +368,6 @@ body {
   font-size: 0.875rem;
 }
 
-/* Estilos dos Detalhes do Filme */
 .movie-hero {
   position: relative;
   min-height: 70vh;
@@ -622,7 +620,6 @@ body {
   font-size: 0.875rem;
 }
 
-/* Estilos do Rodapé */
 .footer {
   background: var(--gradient);
   border-top: 1px solid var(--border);
@@ -721,7 +718,6 @@ body {
   font-size: 0.875rem;
 }
 
-/* Estados de Carregamento e Erro */
 .loading-state,
 .error-state {
   display: flex;
@@ -743,8 +739,12 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .retry-btn {
@@ -764,13 +764,12 @@ body {
   transform: translateY(-2px);
 }
 
-/* Design Responsivo */
 @media (max-width: 1024px) {
   .movie-details-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .cast-section {
     order: -1;
   }
@@ -780,36 +779,36 @@ body {
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .hero-stats {
     gap: 1.5rem;
   }
-  
+
   .movies-grid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
   }
-  
+
   .movie-hero-content {
     grid-template-columns: 1fr;
     gap: 2rem;
     text-align: center;
   }
-  
+
   .movie-poster-large {
     max-width: 300px;
     margin: 0 auto;
   }
-  
+
   .movie-hero-title {
     font-size: 2rem;
   }
-  
+
   .movie-meta {
     justify-content: center;
     gap: 1rem;
   }
-  
+
   .footer-content {
     gap: 2rem;
     text-align: center;
@@ -821,25 +820,24 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;
   }
-  
+
   .movie-hero-content {
     padding: 1rem;
   }
-  
+
   .movie-details-section {
     padding: 2rem 0;
   }
-  
+
   .cast-list {
     gap: 0.75rem;
   }
-  
+
   .cast-member {
     padding: 0.75rem;
   }
 }
 
-/* Acessibilidade */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -850,14 +848,12 @@ body {
   }
 }
 
-/* Estados de Foco */
 button:focus,
 a:focus {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* Suporte para modo de alto contraste */
 @media (prefers-contrast: high) {
   :root {
     --text-secondary: #ffffff;
