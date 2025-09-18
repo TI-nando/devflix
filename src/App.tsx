@@ -11,7 +11,7 @@ import "./index.css";
 
 function App() {
   return (
-    <Router basename="/devflix">
+    <Router>
       <>
         <Header />
         <main className="main-content">
