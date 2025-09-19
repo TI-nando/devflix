@@ -129,48 +129,59 @@ const TVShows = () => {
             <div className="movies-grid">
               {tvShows.map((show) => (
                 <div key={show.id} className="movie-card">
-                  <div className="movie-poster">
-                    <img
-                      src={
-                        getImageUrl(show.poster_path) ||
-                        "/placeholder-movie.jpg"
-                      }
-                      alt={show.name}
-                      loading="lazy"
-                    />
-                    <div className="movie-overlay">
-                      <div className="movie-rating">
-                        <Star className="star-icon" />
-                        <span>{show.vote_average.toFixed(1)}</span>
+                  <Link to={`/tv/${show.id}`} className="movie-link">
+                    <div className="movie-poster">
+                      <img
+                        src={
+                          getImageUrl(show.poster_path) ||
+                          "/placeholder-movie.jpg"
+                        }
+                        alt={show.name}
+                        loading="lazy"
+                      />
+                      <div className="movie-overlay">
+                        <div className="movie-rating">
+                          <Star className="star-icon" fill="currentColor" />
+                          <span>{show.vote_average.toFixed(1)}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <Link to={`/tv/${show.id}`} className="movie-link">
                     <div className="movie-info">
                       <h3 className="movie-title">{show.name}</h3>
-                      <p className="movie-year">
-                        {show.first_air_date
-                          ? new Date(show.first_air_date).getFullYear()
-                          : "N/A"}
-                      </p>
+                      <div className="movie-meta">
+                        <div className="movie-year">
+                          <Calendar size={14} />
+                          <span>
+                            {show.first_air_date
+                              ? new Date(show.first_air_date).getFullYear()
+                              : "N/A"}
+                          </span>
+                        </div>
+                        <div className="movie-rating">
+                          <Star size={14} fill="currentColor" />
+                          <span>{show.vote_average.toFixed(1)}</span>
+                        </div>
+                      </div>
                     </div>
                   </Link>
+                  
                   <button
                     className={`favorite-btn ${
                       isFavorite(show.id, "tv") ? "favorited" : ""
                     }`}
                     onClick={(e) => {
                       e.preventDefault();
+                      e.stopPropagation();
                       toggleFavorite({
                         id: show.id,
-                        title: show.name,
+                        name: show.name,
                         poster_path: show.poster_path,
                         vote_average: show.vote_average,
                         first_air_date: show.first_air_date,
-                        media_type: "tv",
+                        type: "tv",
                       });
                     }}
-                    title={
+                    aria-label={
                       isFavorite(show.id, "tv")
                         ? "Remover dos favoritos"
                         : "Adicionar aos favoritos"

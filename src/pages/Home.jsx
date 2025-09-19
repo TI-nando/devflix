@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Calendar, TrendingUp } from 'lucide-react';
+import { Star, Calendar, TrendingUp, Film, Award, Clock, Heart } from 'lucide-react';
 import { getPopularMovies, getImageUrl } from '../services/api';
+import { useFavorites } from '../hooks/useFavorites';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
 
   useEffect(() => {
     // Função para buscar filmes populares da API
@@ -25,6 +27,12 @@ const Home = () => {
 
     fetchMovies();
   }, []);
+
+  const handleFavoriteToggle = (movie, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFavorite({ ...movie, type: 'movie' });
+  };
 
   // Estado de carregamento
   if (loading) {
@@ -63,12 +71,16 @@ const Home = () => {
       <div className="hero-section">
         <div className="container">
           <div className="hero-content">
+            <div className="hero-badge">
+              <Film size={20} />
+              <span>DevFlix Original</span>
+            </div>
             <h1 className="hero-title">
               Descubra os Melhores
               <span className="hero-highlight"> Filmes</span>
             </h1>
             <p className="hero-subtitle">
-              Explore uma vasta coleção de filmes populares, lançamentos e clássicos do cinema
+              Explore uma vasta coleção de filmes populares, lançamentos e clássicos do cinema mundial
             </p>
             <div className="hero-stats">
               <div className="stat">
@@ -76,11 +88,11 @@ const Home = () => {
                 <span>Filmes Populares</span>
               </div>
               <div className="stat">
-                <Star className="stat-icon" />
+                <Award className="stat-icon" />
                 <span>Bem Avaliados</span>
               </div>
               <div className="stat">
-                <Calendar className="stat-icon" />
+                <Clock className="stat-icon" />
                 <span>Lançamentos</span>
               </div>
             </div>
@@ -99,31 +111,44 @@ const Home = () => {
           {/* Grid responsivo de filmes */}
           <div className="movies-grid">
             {movies.map((movie) => (
-              <Link
-                key={movie.id}
-                to={`/movie/${movie.id}`}
-                className="movie-card"
-              >
-                <div className="movie-poster">
-                  <img
-                    src={getImageUrl(movie.poster_path) || '/placeholder-movie.jpg'}
-                    alt={movie.title}
-                    loading="lazy"
-                  />
-                  <div className="movie-overlay">
-                    <div className="movie-rating">
-                      <Star className="star-icon" />
-                      <span>{movie.vote_average.toFixed(1)}</span>
+              <div key={movie.id} className="movie-card">
+                <Link to={`/movie/${movie.id}`} className="movie-link">
+                  <div className="movie-poster">
+                    <img
+                      src={getImageUrl(movie.poster_path) || '/placeholder-movie.jpg'}
+                      alt={movie.title}
+                      loading="lazy"
+                    />
+                    <div className="movie-overlay">
+                      <div className="movie-rating">
+                        <Star className="star-icon" fill="currentColor" />
+                        <span>{movie.vote_average.toFixed(1)}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="movie-info">
-                  <h3 className="movie-title">{movie.title}</h3>
-                  <p className="movie-year">
-                    {new Date(movie.release_date).getFullYear()}
-                  </p>
-                </div>
-              </Link>
+                  <div className="movie-info">
+                    <h3 className="movie-title">{movie.title}</h3>
+                    <div className="movie-meta">
+                      <div className="movie-year">
+                        <Calendar size={14} />
+                        <span>{new Date(movie.release_date).getFullYear()}</span>
+                      </div>
+                      <div className="movie-rating">
+                        <Star size={14} fill="currentColor" />
+                        <span>{movie.vote_average.toFixed(1)}</span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+                
+                <button
+                  className={`favorite-btn ${isFavorite(movie.id) ? 'favorited' : ''}`}
+                  onClick={(e) => handleFavoriteToggle(movie, e)}
+                  aria-label={isFavorite(movie.id) ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+                >
+                  <Heart className="heart-icon" />
+                </button>
+              </div>
             ))}
           </div>
         </section>

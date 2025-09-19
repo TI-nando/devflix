@@ -130,68 +130,68 @@ const Movies = () => {
 
             <div className="movies-grid">
               {movies.map((movie) => (
-                <Link
-                  key={movie.id}
-                  to={`/movie/${movie.id}`}
-                  className="movie-card"
-                >
-                  <div className="movie-poster">
-                    <img
-                      src={
-                        getImageUrl(movie.poster_path) ||
-                        "/placeholder-movie.jpg"
-                      }
-                      alt={movie.title}
-                      loading="lazy"
-                    />
-                    <div className="movie-overlay">
-                      <div className="movie-rating">
-                        <Star className="star-icon" />
-                        <span>{movie.vote_average.toFixed(1)}</span>
+                <div key={movie.id} className="movie-card">
+                  <Link to={`/movie/${movie.id}`} className="movie-link">
+                    <div className="movie-poster">
+                      <img
+                        src={
+                          getImageUrl(movie.poster_path) ||
+                          "/placeholder-movie.jpg"
+                        }
+                        alt={movie.title}
+                        loading="lazy"
+                      />
+                      <div className="movie-overlay">
+                        <div className="movie-rating">
+                          <Star className="star-icon" fill="currentColor" />
+                          <span>{movie.vote_average.toFixed(1)}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="movie-info">
-                    <h3 className="movie-title">{movie.title}</h3>
-                    <div className="movie-meta">
-                      <div className="movie-rating">
-                        <Star className="star-icon" />
-                        <span>{movie.vote_average.toFixed(1)}</span>
-                      </div>
-                      <div className="movie-year">
-                        <Calendar className="calendar-icon" />
-                        <span>
-                          {movie.release_date
-                            ? new Date(movie.release_date).getFullYear()
-                            : "N/A"}
-                        </span>
+                    <div className="movie-info">
+                      <h3 className="movie-title">{movie.title}</h3>
+                      <div className="movie-meta">
+                        <div className="movie-year">
+                          <Calendar size={14} />
+                          <span>
+                            {movie.release_date
+                              ? new Date(movie.release_date).getFullYear()
+                              : "N/A"}
+                          </span>
+                        </div>
+                        <div className="movie-rating">
+                          <Star size={14} fill="currentColor" />
+                          <span>{movie.vote_average.toFixed(1)}</span>
+                        </div>
                       </div>
                     </div>
-                    <button
-                      className={`favorite-btn ${
-                        isFavorite(movie.id, "movie") ? "favorited" : ""
-                      }`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        toggleFavorite({
-                          id: movie.id,
-                          title: movie.title,
-                          poster_path: movie.poster_path,
-                          vote_average: movie.vote_average,
-                          release_date: movie.release_date,
-                          media_type: "movie",
-                        });
-                      }}
-                      title={
-                        isFavorite(movie.id, "movie")
-                          ? "Remover dos favoritos"
-                          : "Adicionar aos favoritos"
-                      }
-                    >
-                      <Heart className="heart-icon" />
-                    </button>
-                  </div>
-                </Link>
+                  </Link>
+                  
+                  <button
+                    className={`favorite-btn ${
+                      isFavorite(movie.id, "movie") ? "favorited" : ""
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleFavorite({
+                        id: movie.id,
+                        title: movie.title,
+                        poster_path: movie.poster_path,
+                        vote_average: movie.vote_average,
+                        release_date: movie.release_date,
+                        type: "movie",
+                      });
+                    }}
+                    aria-label={
+                      isFavorite(movie.id, "movie")
+                        ? "Remover dos favoritos"
+                        : "Adicionar aos favoritos"
+                    }
+                  >
+                    <Heart className="heart-icon" />
+                  </button>
+                </div>
               ))}
             </div>
           </section>

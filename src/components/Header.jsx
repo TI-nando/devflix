@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Film, Search, Menu, X } from "lucide-react";
+import { Film, Search, Menu, X, Star, Heart } from "lucide-react";
 import SearchModal from "./SearchModal.jsx";
 
 const Header = () => {
@@ -16,49 +16,40 @@ const Header = () => {
     setIsMenuOpen(false);
   };
 
+  const navItems = [
+    { path: "/", label: "Início", icon: Film },
+    { path: "/movies", label: "Filmes", icon: Film },
+    { path: "/tv", label: "Séries", icon: Star },
+    { path: "/favorites", label: "Favoritos", icon: Heart },
+  ];
+
   return (
     <header className="header">
       <div className="container">
         <Link to="/" className="logo" onClick={closeMenu}>
-          <Film className="logo-icon" />
+          <div className="logo-icon-wrapper">
+            <Film className="logo-icon" />
+          </div>
           <span className="logo-text">DevFlix</span>
         </Link>
 
         <nav className={`nav ${isMenuOpen ? "nav-open" : ""}`}>
-          <Link
-            to="/"
-            className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            Início
-          </Link>
-          <Link
-            to="/movies"
-            className={`nav-link ${
-              location.pathname === "/movies" ? "active" : ""
-            }`}
-            onClick={closeMenu}
-          >
-            Filmes
-          </Link>
-          <Link
-            to="/tv"
-            className={`nav-link ${
-              location.pathname === "/tv" ? "active" : ""
-            }`}
-            onClick={closeMenu}
-          >
-            Séries
-          </Link>
-          <Link
-            to="/favorites"
-            className={`nav-link ${
-              location.pathname === "/favorites" ? "active" : ""
-            }`}
-            onClick={closeMenu}
-          >
-            Favoritos
-          </Link>
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`nav-link ${
+                  location.pathname === item.path ? "active" : ""
+                }`}
+                onClick={closeMenu}
+              >
+                <Icon className="nav-icon" />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="header-actions">
@@ -68,6 +59,7 @@ const Header = () => {
             onClick={() => setIsSearchOpen(true)}
           >
             <Search className="search-icon" />
+            <span className="search-text">Buscar</span>
           </button>
 
           <button
